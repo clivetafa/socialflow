@@ -1,36 +1,48 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🚀 SocialFlow — Social Media Management Dashboard  
 
-## Getting Started
+**SocialFlow** is a modern, full-stack social media dashboard built to help creators and marketers plan, manage, and visualize their content in one place. The project showcases clean UI design, responsive layouts, and real-world application architecture using Next.js and TypeScript.
 
-First, run the development server:
+---
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## 📌 Project Overview  
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+SocialFlow simulates a professional social media management tool with features such as:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- 📊 **Analytics-style KPI dashboard**
+- 🗓 **Content calendar panel**
+- 📝 **Create new post modal**
+- 🌙 **Dark mode UI**
+- 📱 **Fully responsive design**
+- 🔐 **Structured backend using Prisma**
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+This project was built to demonstrate my skills in frontend development, UI design, and modern web application architecture.
 
-## Learn More
+---
 
-To learn more about Next.js, take a look at the following resources:
+## 🛠 Tech Stack  
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+This project is built with:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- **Next.js 14 (App Router)**
+- **TypeScript**
+- **Tailwind CSS**
+- **Prisma**
+- **Node.js**
+- **React**
+- **Git & GitHub**
 
-## Deploy on Vercel
+---
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## ✨ Key Features  
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- Sidebar navigation for easy dashboard browsing  
+- Interactive post cards for social content  
+- Modal system for creating and previewing posts  
+- Calendar view for scheduling content  
+- Modern dark-themed user interface  
+- Mobile-friendly responsive layout  
+
+---
+
+## 📂 Project Structure  
+
