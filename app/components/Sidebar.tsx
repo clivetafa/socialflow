@@ -50,7 +50,7 @@ export default function Sidebar() {
       </div>
 
       {/* Notifications */}
-      <div className="flex items-center justify-between mb-8 p-3 bg-[#0a192f] rounded-lg border border-[#233554]">
+      <Link href="/notifications" className="flex items-center justify-between mb-8 p-3 bg-[#0a192f] rounded-lg border border-[#233554] hover:border-[#64ffda] transition-colors">
         <div className="flex items-center gap-3">
           <Bell className="text-[#64ffda]" size={20} />
           <span className="text-sm">Notifications</span>
@@ -58,7 +58,7 @@ export default function Sidebar() {
         <span className="bg-red-500 text-white text-xs rounded-full w-6 h-6 flex items-center justify-center">
           7
         </span>
-      </div>
+      </Link>
 
       {/* Navigation */}
       <div className="mb-8">
@@ -71,7 +71,11 @@ export default function Sidebar() {
               key={item.name}
               href={item.href}
               onClick={() => setActiveItem(item.name)}
-              className={`flex items-center justify-between p-3 rounded-lg transition-all ${activeItem === item.name ? 'bg-[#0a192f] text-[#64ffda] border border-[#64ffda]' : 'text-[#ccd6f6] hover:bg-[#0a192f] hover:text-[#64ffda]'}`}
+              className={`flex items-center justify-between p-3 rounded-lg transition-all ${
+                activeItem === item.name 
+                  ? 'bg-[#0a192f] text-[#64ffda] border border-[#64ffda]' 
+                  : 'text-[#ccd6f6] hover:bg-[#0a192f] hover:text-[#64ffda]'
+              }`}
             >
               <div className="flex items-center gap-3">
                 {item.icon}
@@ -106,11 +110,14 @@ export default function Sidebar() {
         </nav>
       </div>
 
-      {/* Quick Post Button */}
-      <button className="w-full mt-6 bg-gradient-to-r from-[#64ffda] to-[#52d7b7] text-[#0a192f] font-semibold py-3 rounded-lg flex items-center justify-center gap-2 hover:opacity-90 transition-opacity">
+      {/* Quick Post Button - Changed from button to Link */}
+      <Link 
+        href="/new-post" 
+        className="w-full mt-6 bg-gradient-to-r from-[#64ffda] to-[#52d7b7] text-[#0a192f] font-semibold py-3 rounded-lg flex items-center justify-center gap-2 hover:opacity-90 transition-opacity"
+      >
         <Plus size={20} />
         Quick Post
-      </button>
+      </Link>
     </div>
   );
 }
