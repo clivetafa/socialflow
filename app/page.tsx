@@ -1,13 +1,13 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Sidebar from './components/Sidebar';
 import Header from './components/Header';
 import StatsCard from './components/StatsCard';
 import PostCard from './components/PostCard';
 import Calendar from './components/Calendar';
 import PostModal from './components/PostModal';
-import MessagesSection from './components/MessagesSection';
+import MobileNav from './components/MobileNav';
 import {
   Twitter,
   Instagram,
@@ -29,6 +29,17 @@ import {
 
 export default function HomePage() {
   const [isPostModalOpen, setIsPostModalOpen] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+
+  // Check if mobile
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
 
   // Sample messages data
   const messages = [
@@ -41,12 +52,14 @@ export default function HomePage() {
 
   return (
     <div className="flex min-h-screen bg-[#0a192f]">
-      <Sidebar />
-      <main className="flex-1 p-6 ml-64">
+      {/* Hide sidebar on mobile */}
+      {!isMobile && <Sidebar />}
+      
+      <main className={`flex-1 p-4 md:p-6 ${!isMobile ? 'ml-64' : ''}`}>
         <Header onNewPostClick={() => setIsPostModalOpen(true)} />
         
-        {/* Stats Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+        {/* Stats Grid - Stack on mobile */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 mb-6 md:mb-8">
           <StatsCard
             title="Total Posts"
             value="1,234"
@@ -81,13 +94,13 @@ export default function HomePage() {
           />
         </div>
 
-        {/* Main Content Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
-          {/* Posts Section */}
-          <div className="lg:col-span-2 space-y-6">
-            <div className="bg-[#112240] rounded-xl border border-[#233554] p-6">
-              <div className="flex items-center justify-between mb-6">
-                <h2 className="text-xl font-bold text-[#e6f1ff]">Recent Posts</h2>
+        {/* Main Content - Stack on mobile */}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 md:gap-6 mb-6 md:mb-8">
+          {/* Posts Section - Full width on mobile */}
+          <div className="lg:col-span-2 space-y-4 md:space-y-6">
+            <div className="bg-[#112240] rounded-xl border border-[#233554] p-4 md:p-6">
+              <div className="flex items-center justify-between mb-4 md:mb-6">
+                <h2 className="text-lg md:text-xl font-bold text-[#e6f1ff]">Recent Posts</h2>
                 <button className="text-[#64ffda] text-sm font-medium hover:underline">
                   View All →
                 </button>
@@ -104,7 +117,7 @@ export default function HomePage() {
                 engagementRate="4.8%"
               />
               
-              <div className="mt-6">
+              <div className="mt-4 md:mt-6">
                 <PostCard
                   platform="Instagram"
                   username="@socialflow"
@@ -118,77 +131,79 @@ export default function HomePage() {
               </div>
             </div>
 
-            {/* Messages Preview */}
-            <div className="bg-[#112240] rounded-xl border border-[#233554] p-6">
-              <div className="flex items-center justify-between mb-6">
-                <h2 className="text-xl font-bold text-[#e6f1ff]">Recent Messages</h2>
-                <button className="text-[#64ffda] text-sm font-medium hover:underline">
-                  View All Messages →
-                </button>
+            {/* Messages Preview - Full width on mobile */}
+            <div className="bg-[#112240] rounded-xl border border-[#233554] p-4 md:p-6">
+              <div className="flex items-center justify-between mb-4 md:mb-6">
+                <h2 className="text-lg md:text-xl font-bold text-[#e6f1ff]">Recent Messages</h2>
+                <a href="/messages" className="text-[#64ffda] text-sm font-medium hover:underline">
+                  View All →
+                </a>
               </div>
               
-              <div className="space-y-4">
+              <div className="space-y-3 md:space-y-4">
                 {messages.slice(0, 3).map(msg => (
-                  <div key={msg.id} className={`p-4 rounded-lg border ${msg.unread ? 'border-[#64ffda] bg-[#0a192f]/50' : 'border-[#233554]'}`}>
-                    <div className="flex items-center justify-between mb-2">
-                      <div className="flex items-center gap-3">
-                        <div className={`w-8 h-8 rounded-full ${msg.unread ? 'bg-[#64ffda]' : 'bg-[#233554]'} flex items-center justify-center`}>
-                          <span className={`text-sm font-bold ${msg.unread ? 'text-[#0a192f]' : 'text-[#64ffda]'}`}>
-                            {msg.name.charAt(0)}
-                          </span>
+                  <a href={`/messages/${msg.id}`} key={msg.id}>
+                    <div className={`p-3 md:p-4 rounded-lg border ${msg.unread ? 'border-[#64ffda] bg-[#0a192f]/50' : 'border-[#233554]'}`}>
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center gap-2 md:gap-3 min-w-0 flex-1">
+                          <div className={`w-8 h-8 md:w-10 md:h-10 rounded-full ${msg.unread ? 'bg-[#64ffda]' : 'bg-[#233554]'} flex items-center justify-center flex-shrink-0`}>
+                            <span className={`text-sm md:text-base font-bold ${msg.unread ? 'text-[#0a192f]' : 'text-[#64ffda]'}`}>
+                              {msg.name.charAt(0)}
+                            </span>
+                          </div>
+                          <div className="min-w-0 flex-1">
+                            <h4 className="font-medium text-[#e6f1ff] text-sm md:text-base truncate">{msg.name}</h4>
+                            <p className="text-xs md:text-sm text-[#8892b0] truncate">{msg.message}</p>
+                          </div>
                         </div>
-                        <div>
-                          <h4 className="font-medium text-[#e6f1ff]">{msg.name}</h4>
-                          <p className="text-sm text-[#8892b0] truncate">{msg.message}</p>
+                        <div className="text-right flex-shrink-0 ml-2">
+                          <span className="text-xs text-[#8892b0]">{msg.time}</span>
+                          {msg.unread && (
+                            <div className="mt-1 w-2 h-2 bg-[#64ffda] rounded-full ml-auto"></div>
+                          )}
                         </div>
-                      </div>
-                      <div className="text-right">
-                        <span className="text-xs text-[#8892b0]">{msg.time}</span>
-                        {msg.unread && (
-                          <div className="mt-1 w-2 h-2 bg-[#64ffda] rounded-full ml-auto"></div>
-                        )}
                       </div>
                     </div>
-                  </div>
+                  </a>
                 ))}
               </div>
             </div>
           </div>
 
-          {/* Right Column */}
-          <div className="space-y-6">
+          {/* Right Column - Full width on mobile */}
+          <div className="space-y-4 md:space-y-6">
             <Calendar />
             
             {/* Social Platforms */}
-            <div className="bg-[#112240] rounded-xl border border-[#233554] p-6">
+            <div className="bg-[#112240] rounded-xl border border-[#233554] p-4 md:p-6">
               <h3 className="text-lg font-bold text-[#e6f1ff] mb-4">Platform Status</h3>
-              <div className="space-y-4">
+              <div className="space-y-3">
                 <div className="flex items-center justify-between p-3 rounded-lg bg-[#0a192f]">
                   <div className="flex items-center gap-3">
                     <div className="p-2 bg-blue-500/20 rounded-lg">
                       <Twitter className="text-blue-400" size={18} />
                     </div>
-                    <span className="text-[#ccd6f6]">Twitter</span>
+                    <span className="text-sm md:text-base text-[#ccd6f6]">Twitter</span>
                   </div>
-                  <span className="text-[#64ffda] font-medium">Connected</span>
+                  <span className="text-[#64ffda] text-sm font-medium">Connected</span>
                 </div>
                 <div className="flex items-center justify-between p-3 rounded-lg bg-[#0a192f]">
                   <div className="flex items-center gap-3">
                     <div className="p-2 bg-pink-500/20 rounded-lg">
                       <Instagram className="text-pink-400" size={18} />
                     </div>
-                    <span className="text-[#ccd6f6]">Instagram</span>
+                    <span className="text-sm md:text-base text-[#ccd6f6]">Instagram</span>
                   </div>
-                  <span className="text-[#64ffda] font-medium">Connected</span>
+                  <span className="text-[#64ffda] text-sm font-medium">Connected</span>
                 </div>
                 <div className="flex items-center justify-between p-3 rounded-lg bg-[#0a192f]">
                   <div className="flex items-center gap-3">
                     <div className="p-2 bg-blue-600/20 rounded-lg">
                       <Facebook className="text-blue-300" size={18} />
                     </div>
-                    <span className="text-[#ccd6f6]">Facebook</span>
+                    <span className="text-sm md:text-base text-[#ccd6f6]">Facebook</span>
                   </div>
-                  <span className="text-yellow-400 font-medium">Needs Attention</span>
+                  <span className="text-yellow-400 text-sm font-medium">Needs Attention</span>
                 </div>
               </div>
             </div>
@@ -196,31 +211,34 @@ export default function HomePage() {
         </div>
 
         {/* Quick Actions */}
-        <div className="bg-[#112240] rounded-xl border border-[#233554] p-6">
-          <h3 className="text-lg font-bold text-[#e6f1ff] mb-6">Quick Actions</h3>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            <button className="flex flex-col items-center justify-center p-4 rounded-lg bg-[#0a192f] border border-[#233554] hover:border-[#64ffda] hover:text-[#64ffda] transition-all">
-              <BarChart3 className="mb-2" size={24} />
-              <span className="text-sm font-medium">Analytics</span>
-            </button>
-            <button className="flex flex-col items-center justify-center p-4 rounded-lg bg-[#0a192f] border border-[#233554] hover:border-[#64ffda] hover:text-[#64ffda] transition-all">
-              <MessageCircle className="mb-2" size={24} />
-              <span className="text-sm font-medium">Messages</span>
-            </button>
-            <button className="flex flex-col items-center justify-center p-4 rounded-lg bg-[#0a192f] border border-[#233554] hover:border-[#64ffda] hover:text-[#64ffda] transition-all">
-              <Users className="mb-2" size={24} />
-              <span className="text-sm font-medium">Audience</span>
-            </button>
+        <div className="bg-[#112240] rounded-xl border border-[#233554] p-4 md:p-6">
+          <h3 className="text-lg font-bold text-[#e6f1ff] mb-4 md:mb-6">Quick Actions</h3>
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 md:gap-4">
+            <a href="/analytics" className="flex flex-col items-center justify-center p-3 md:p-4 rounded-lg bg-[#0a192f] border border-[#233554] hover:border-[#64ffda] hover:text-[#64ffda] transition-all">
+              <BarChart3 className="mb-2" size={20} />
+              <span className="text-xs md:text-sm font-medium">Analytics</span>
+            </a>
+            <a href="/messages" className="flex flex-col items-center justify-center p-3 md:p-4 rounded-lg bg-[#0a192f] border border-[#233554] hover:border-[#64ffda] hover:text-[#64ffda] transition-all">
+              <MessageCircle className="mb-2" size={20} />
+              <span className="text-xs md:text-sm font-medium">Messages</span>
+            </a>
+            <a href="/audience" className="flex flex-col items-center justify-center p-3 md:p-4 rounded-lg bg-[#0a192f] border border-[#233554] hover:border-[#64ffda] hover:text-[#64ffda] transition-all">
+              <Users className="mb-2" size={20} />
+              <span className="text-xs md:text-sm font-medium">Audience</span>
+            </a>
             <button 
               onClick={() => setIsPostModalOpen(true)}
-              className="flex flex-col items-center justify-center p-4 rounded-lg bg-gradient-to-br from-[#64ffda] to-[#52d7b7] text-[#0a192f] font-medium hover:opacity-90 transition-opacity"
+              className="flex flex-col items-center justify-center p-3 md:p-4 rounded-lg bg-gradient-to-br from-[#64ffda] to-[#52d7b7] text-[#0a192f] font-medium hover:opacity-90 transition-opacity"
             >
-              <Plus className="mb-1" size={24} />
-              <span className="text-sm font-bold">New Post</span>
+              <Plus className="mb-1" size={20} />
+              <span className="text-xs md:text-sm font-bold">New Post</span>
             </button>
           </div>
         </div>
       </main>
+
+      {/* Mobile Bottom Navigation */}
+      {isMobile && <MobileNav />}
 
       {/* New Post Modal */}
       <PostModal isOpen={isPostModalOpen} onClose={() => setIsPostModalOpen(false)} />
