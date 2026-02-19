@@ -1,26 +1,40 @@
 'use client';
 
-import Sidebar from '../components/Sidebar';
-import Header from '../components/Header';
-import MessagesSection from '../components/MessagesSection'; // FIXED: Changed from MessageSection to MessagesSection
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import MessagesSection from '../components/MessagesSection';
+import MobileNav from '../components/MobileNav';
+import { ArrowLeft } from 'lucide-react';
+import Link from 'next/link';
 
 export default function MessagesPage() {
-  const [isPostModalOpen, setIsPostModalOpen] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
 
   return (
-    <div className="flex min-h-screen bg-[#0a192f]">
-      <Sidebar />
-      <main className="flex-1 p-6 ml-64">
-        <Header onNewPostClick={() => setIsPostModalOpen(true)} />
-        
-        <div className="mb-6">
-          <h1 className="text-2xl font-bold text-[#e6f1ff]">Messages</h1>
-          <p className="text-[#8892b0]">Manage all your social media conversations in one place</p>
+    <div className="min-h-screen bg-[#0a192f] pb-16 md:pb-0">
+      {/* Mobile Header */}
+      {isMobile && (
+        <div className="sticky top-0 bg-[#112240] border-b border-[#233554] p-4 z-10">
+          <Link href="/" className="flex items-center gap-2 text-[#64ffda]">
+            <ArrowLeft size={20} />
+            <span>Back to Dashboard</span>
+          </Link>
         </div>
-
-        <MessagesSection /> {/* FIXED: Changed from MessageSection to MessagesSection */}
-      </main>
+      )}
+      
+      <div className="p-4 md:p-6">
+        <MessagesSection />
+      </div>
+      
+      {isMobile && <MobileNav />}
     </div>
   );
-}
+      }
