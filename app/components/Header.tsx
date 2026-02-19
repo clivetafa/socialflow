@@ -10,7 +10,7 @@ export default function Header({ onNewPostClick }: HeaderProps) {
   return (
     <div className="flex items-center justify-between mb-8">
       <div>
-        <h1 className="text-3xl font-bold text-[#e6f1ff]">Welcome back, Alex! 👋</h1>
+        <h1 className="text-3xl font-bold text-[#e6f1ff]">Welcome back, CLIVE! 👋</h1>
         <p className="text-[#8892b0] mt-2">Here's what's happening with your social media today.</p>
         
         {/* Date and Stats */}
@@ -49,7 +49,7 @@ export default function Header({ onNewPostClick }: HeaderProps) {
             <User className="text-[#0a192f]" size={20} />
           </div>
           <div>
-            <p className="font-semibold text-[#e6f1ff]">Alex Johnson</p>
+            <p className="font-semibold text-[#e6f1ff]">CLIVE CHINGANDA</p>
             <p className="text-xs text-[#8892b0]">Social Media Manager</p>
           </div>
         </div>
